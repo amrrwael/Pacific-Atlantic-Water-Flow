@@ -1,5 +1,6 @@
 import unittest
 from typing import List
+import time
 
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
@@ -44,6 +45,11 @@ class Solution:
 class TestPacificAtlantic(unittest.TestCase):
     def setUp(self):
         self.solution = Solution().pacificAtlantic
+        self.start_time = time.time()
+
+    def tearDown(self):
+        elapsed_time = time.time() - self.start_time
+        print(f"{self.id()} - elapsed time: {elapsed_time:.6f} seconds")
 
     def test_empty_matrix(self):
         """Test with an empty matrix"""
@@ -150,7 +156,6 @@ class TestPacificAtlantic(unittest.TestCase):
         expected_output = [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]]
         self.assertEqual(sorted(self.solution(heights)), sorted(expected_output))
 
-
     def test_ridges_and_valleys(self):
         """Test with a matrix that has ridges and valleys"""
         heights = [
@@ -191,4 +196,9 @@ class TestPacificAtlantic(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestPacificAtlantic)
+    runner = unittest.TextTestRunner()
+    start_time = time.time()
+    runner.run(suite)
+    elapsed_time = time.time() - start_time
+    print(f"Total elapsed time: {elapsed_time:.5f} seconds")
